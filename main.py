@@ -10,18 +10,7 @@ Toolkit to extend the Robinhood Investment API
 import backtrader as bt
 import yfinance as yf
 from datetime import datetime
-
-"""
-* acceses yahoo finance api
-* ticker data  
-* fundamentals 
-* historical market data
-"""
-def ticker_data():
-
-    msft = yf.Ticker("MSFT") #select ticker
-    print(msft.info) # get fundamental data
-    print(msft.history(period="max")) # get historical market data
+import matplotlib as plt
 
 """
 * creates trading strategy1
@@ -34,19 +23,31 @@ class SmaCross(bt.SignalStrategy):
         crossover = bt.ind.CrossOver(sma1, sma2)
         self.signal_add(bt.SIGNAL_LONG, crossover)
 
-if __name__ == '__main__':
+def backtest(strategy, ticker, fromdate, todate, cash=1000, commission=0.00):
 
+    # initialize the engine with your strategy, cash amount, etc
     cerebro = bt.Cerebro()
-    cerebro.addstrategy(SmaCross)
-    cerebro.broker.setcash(10337.0)
-    cerebro.broker.setcommission(commission=0.001)
+    cerebro.addstrategy(strategy)
+    cerebro.broker.setcash(cash)
+    cerebro.broker.setcommission(commission=commission)
 
-    # for testing purposes
-    # stock needs to be user input var
-    data = bt.feeds.PandasData(dataname=yf.download('AAPL', '2017-01-01', '2017-12-31')) #robinhood
-
+    # pulling the data to put into the engine
+    data = bt.feeds.PandasData(dataname=yf.download(ticker, fromdate, todate))
     cerebro.adddata(data)
+
+    # run the backtest!
     print('Starting Portfolio Value: %.2f' % cerebro.broker.getvalue())
     cerebro.run()
     print('Ending Portfolio Value: %.2f' % cerebro.broker.getvalue())
-    cerebro.plot()
+
+    # plot it, the extra plt commands for getting it inline, default doesn't work in colab
+    plt.rcParams['figure.figsize'] = [15, 12]
+    plt.rcParams.update({'font.size': 12}) 
+    cerebro.plot(iplot=False)
+
+
+if __name__ == '__main__':
+
+    # backtest
+    # call robinhood api 
+    backtest(strategy=SmaCross, ticker='TSLA', fromdate='2017-01-01', todate='2020-12-31')
