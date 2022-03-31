@@ -1,21 +1,33 @@
 """
-
-CSE326 Stock Bought 
-file: main.py
-authors: Jennifer Minnich
-date: Spring 2022
-Toolkit to extend the Robinhood Investment API
-
+* CSE326 Stock Bought 
+* file: main.py
+* authors: Jennifer Minnich
+* date: Spring 2022
+* Toolkit to extend the Robinhood Investment API
 """
 import backtrader as bt
 import yfinance as yf
 from datetime import datetime
 import matplotlib as plt
 
+
 """
-* creates trading strategy1
-* Dual Moving Average (DMA) Strategy
+* creates trading strategy
+* Donchian Strategy
+* used to buy breakouts
+* buy when the price breaks through the 20-period high and
+* sell when the price drops below the 20-period low
 """
+
+class DonchianStrategy(bt.Strategy):
+    def __init__(self):
+        self.myind = DonchianChannels()
+
+    def next(self):
+        if self.data[0] > self.myind.dch[0]:
+            self.buy()
+        elif self.data[0] < self.myind.dcl[0]:
+            self.sell()
 
 class DonchianChannels(bt.Indicator):
     '''
@@ -52,24 +64,24 @@ class DonchianChannels(bt.Indicator):
         self.l.dcl = bt.ind.Lowest(lo, period=self.p.period)
         self.l.dcm = (self.l.dch + self.l.dcl) / 2.0  # avg of the above
 
-
-class MyStrategy(bt.Strategy):
-    def __init__(self):
-        self.myind = DonchianChannels()
-
-    def next(self):
-        if self.data[0] > self.myind.dch[0]:
-            self.buy()
-        elif self.data[0] < self.myind.dcl[0]:
-            self.sell()
-
-class SmaCross(bt.SignalStrategy):
+"""
+* creates trading strategy
+* Dual Moving Average (DMA) Strategy
+"""
+class DMAStrategy(bt.SignalStrategy):
     def __init__(self):
         sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=20)
         crossover = bt.ind.CrossOver(sma1, sma2)
         self.signal_add(bt.SIGNAL_LONG, crossover)
 
-def backtest(strategy, ticker, fromdate, todate, cash=1000, commission=0.00):
+"""
+* backtest function
+* uses strategy selection from user
+* ticker input from user
+* cash input by user
+* commission set to 0
+"""
+def backtest(strategy, ticker, fromdate, todate, cash, commission=0.00):
 
     # initialize the engine with your strategy, cash amount, etc
     cerebro = bt.Cerebro()
@@ -96,4 +108,4 @@ if __name__ == '__main__':
 
     # backtest
     # call robinhood api 
-    backtest(strategy=MyStrategy, ticker='TSLA', fromdate='2017-01-01', todate='2020-12-31')
+    backtest(strategy=DonchianStrategy, ticker='TSLA', fromdate='2017-01-01', todate='2020-12-31', cash=1000.0)
