@@ -71,7 +71,7 @@ def get_stock_order_info(orderID):
 
 #A generic order function.
 def order(symbol, quantity, side):
-	return r..orders.order(symbol, quantity, side, limitPrice = None, stopPrice = None, timeInForce = 'gtc', extendedHours = False, jsonify = True)
+	return r.orders.order(symbol, quantity, side, limitPrice = None, stopPrice = None, timeInForce = 'gtc', extendedHours = False, jsonify = True)
 	#symbol (str) – The stock ticker of the stock to sell.
 	#quantity (int) – The number of stocks to sell.
 	#side (str) – Either ‘buy’ or ‘sell’
@@ -85,7 +85,7 @@ def order(symbol, quantity, side):
 
 #Submits a market order to be executed immediately for fractional shares by specifying the amount in dollars that you want to trade. Good for share fractions up to 6 decimal places. Robinhood does not currently support placing limit, stop, or stop loss orders for fractional trades.
 def order_buy_fractional_by_price(symbol, amountInDollars):
-	return r..orders.order_buy_fractional_by_price(symbol, amountInDollars, timeInForce = 'gfd', extendedHours = False, jsonify = True)
+	return r.orders.order_buy_fractional_by_price(symbol, amountInDollars, timeInForce = 'gfd', extendedHours = False, jsonify = True)
 	#Returns dictionary that contains information regarding the purchase of stocks, such as the order id, the state of order (queued, confired, filled, failed, canceled, etc.), the price, and the quantity.
 
 
