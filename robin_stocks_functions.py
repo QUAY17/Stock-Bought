@@ -189,3 +189,21 @@ def create_absolute_csv(dir_path, file_name, order_type):
 def export_completed_stock_orders(dir_path):
 	#file_name (Optional[str]) – An optional argument for the name of the file. If not defined, filename will be stock_orders_{current date}
 	r.export.export_completed_stock_orders(dir_path, file_name = None)
+
+	
+"""
+Plot for top panel
+"""
+
+def top_panel(ticker,):
+	# get historical data, default is hourly for the past week
+	data = robin_stocks.robinhood.stocks.get_stock_historicals(ticker, interval='hour', span='month')
+
+	prices = []
+	times = []
+	for datum in data:
+	    prices.append(float(datum['close_price']))
+	    times.append(datum['begins_at']) # needs better formatting
+
+	plt.plot(range(len(prices)), prices)
+	plt.show()
