@@ -195,7 +195,7 @@ def export_completed_stock_orders(dir_path):
 Plot for top panel
 """
 
-def top_panel(ticker,):
+def top_panel(ticker):
 	# get historical data, default is hourly for the past week
 	data = robin_stocks.robinhood.stocks.get_stock_historicals(ticker, interval='hour', span='month')
 
