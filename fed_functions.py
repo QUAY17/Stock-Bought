@@ -7,7 +7,7 @@ import pandas as pd
 
 def enter_api_key():
 	key = input("Enter your 32 character API Key: ")
-	fp.api_key = key
+	fp.api_key = '59b76a3e8c24982778e2ae0c69a92996' # hardcoded student account
 
 def get_unemployment_rate():
 	'''prints unemployment rate'''
