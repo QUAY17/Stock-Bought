@@ -34,6 +34,11 @@ def get_spot_price(ticker):
 	return r.get_latest_price(ticker)
 
 
+def get_buying_power():
+	'''returns buying power as proxy for account balance'''
+	return r.load_phoenix_account(info='account_buying_power')
+
+
 """
 Order (Buy/Sell) Functions
 Several functions below are redundant. I've put them in place in advance to be later culled depending on which of two styles of function call we decide to use.
@@ -190,7 +195,7 @@ def export_completed_stock_orders(dir_path):
 	#file_name (Optional[str]) – An optional argument for the name of the file. If not defined, filename will be stock_orders_{current date}
 	r.export.export_completed_stock_orders(dir_path, file_name = None)
 
-	
+
 """
 Plot for top panel
 """
@@ -202,8 +207,9 @@ def top_panel(ticker):
 	prices = []
 	times = []
 	for datum in data:
-	    prices.append(float(datum['close_price']))
-	    times.append(datum['begins_at']) # needs better formatting
+		prices.append(float(datum['close_price']))
+		times.append(datum['begins_at']) # needs better formatting
 
 	plt.plot(range(len(prices)), prices)
 	plt.show()
+
