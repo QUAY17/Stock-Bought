@@ -1,5 +1,6 @@
 import queue
 from time import sleep
+import robin_stocks
 
 def sma50hr(ticker):
     '''do some trading based around the 50-hour moving average'''
