@@ -1,11 +1,3 @@
-"""
-* CSE326 Stock Bought 
-* file: main.py
-* authors: Jennifer Minnich
-* date: Spring 2022
-* Toolkit to extend the Robinhood Investment API
-"""
-
 import backtrader as bt
 import yfinance as yf
 from datetime import datetime
@@ -94,4 +86,4 @@ if __name__ == '__main__':
 
     # backtest
     # todate +1 day for most recent closing price
-    backtest(strategy=SMA200Strategy, ticker='TSLA', fromdate='2018-01-01', todate='2022-04-20', cash=1000.0)
+    backtest(strategy=SMA200Strategy, ticker='TSLA', fromdate='2018-01-01', todate='2022-04-21', cash=1000.0)
