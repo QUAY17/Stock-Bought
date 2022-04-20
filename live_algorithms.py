@@ -1,6 +1,7 @@
 from time import sleep
 import queue
 import robin_stocks
+import robin_stocks.robinhood as r
 
 def kill_switch(bool):
     if bool is True:
