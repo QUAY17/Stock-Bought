@@ -12,18 +12,21 @@ def enter_api_key():
 def get_unemployment_rate():
 	'''prints unemployment rate'''
 	unemployment = fp.series('UNRATE')
-	print("Unemployment Rate: %s%%" % unemployment.data[-1])
+	#print("Unemployment Rate: %s%%" % unemployment.data[-1])
+	return unemployment.data[-1]
 
 
 def get_gdp():
 	gdp = fp.series('gdpc1')
-	print("Quarterly GDP (billions): ", gdp.data[-1])
+	#print("Quarterly GDP (billions): ", gdp.data[-1])
+	return gdp.data[-1]
 
 def get_cpi():
 	cpi = fp.series('CPIAUCSL')
 	diff = ((cpi.data[-1] / cpi.data[-2]) - 1) * 100 
-	print("CPI: ", cpi.data[-1])
-	print("CPI change since last month: %s%%" % round(diff, 2))
+	#print("CPI: ", cpi.data[-1])
+	#print("CPI change since last month: %s%%" % round(diff, 2))
+	return cpi.data[-1], round(diff,2)
 
 
 def get_overnight_rate():
@@ -48,8 +51,8 @@ def get_overnight_rate():
 	data['date'] = pd.to_datetime(data['date'])
 	data = data.set_index('date')['value'].astype(float)
 
-	print("Fed Overnight rate: %s%%" % data[-1])
-
+	#print("Fed Overnight rate: %s%%" % data[-1])
+	return data[-1]
 
 def get_interest_rate():
 	path = 'fred/series/observations'
@@ -72,5 +75,5 @@ def get_interest_rate():
 	data['date'] = pd.to_datetime(data['date'])
 	data = data.set_index('date')['value'].astype(float)
 	
-	print("Fed Interest Rate: %s%%" % data[-1])
-
+	#print("Fed Interest Rate: %s%%" % data[-1])
+	return data[-1]
