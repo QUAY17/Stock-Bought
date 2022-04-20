@@ -1,8 +1,16 @@
-import queue
 from time import sleep
+import queue
 import robin_stocks
 
-def sma50hr(ticker):
+def kill_switch(bool):
+    if bool is True:
+        kill_signal = True
+    else:
+        kill_signal = False
+
+    return kill_signal
+
+def sma50hr(ticker, kill_signal):
     '''do some trading based around the 50-hour moving average'''
 
     # get data to create the moving average:
@@ -16,7 +24,7 @@ def sma50hr(ticker):
     for price in prices[-50:]:
         baseline.put(price)
 
-    for i in range(2):
+    while kill_signal is False:
 
         # calculate the moving average, can't do this directly on queue's so I dump it to a list to calculate
         moving_average = round(sum(list(baseline.queue)) / len(list(baseline.queue)), 2)
@@ -39,4 +47,3 @@ def sma50hr(ticker):
 
         # wait a few seconds before pulling prices again
         sleep(10)
-
