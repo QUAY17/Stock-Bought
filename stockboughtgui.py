@@ -13,7 +13,7 @@ import fundamentals_functions as ff
 import robin_stocks_functions as rsf
 import fed_functions as fedf
 import backtesting as b
-import live_algorithm as live_algo
+import live_algorithms as live_algo
 
 class Ui_MainWindow(object):
     name_stock = ""
