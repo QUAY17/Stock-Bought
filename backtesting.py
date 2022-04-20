@@ -10,11 +10,19 @@ import backtrader as bt
 import yfinance as yf
 from datetime import datetime
 import matplotlib as plt
-import pandas as pd
-from time import sleep
-import robin_stocks as r
-import robin_stocks.robinhood as r
-     
+
+"""
+creates Dual Moving Average (DMA) Strategy
+* SIGNAL_LONG is trading logic
+* by default, backtrader buys/sells one asset
+"""
+
+class DMAStrategy(bt.SignalStrategy):
+    def __init__(self):
+        short, long = bt.ind.SMA(period=50), bt.ind.SMA(period=200)
+        crossover = bt.ind.CrossOver(short, long)
+        self.signal_add(bt.SIGNAL_LONG, crossover) #this is the trading logic
+  
 """
 * creates 200 day Simple Moving Average (SMA) Strategy
 * determines the long term general market trend
@@ -22,7 +30,13 @@ import robin_stocks.robinhood as r
 class SMA200Strategy(bt.Strategy):
 
     def __init__(self):  # Initiation
-        self.sma = bt.ind.SimpleMovingAverage()  # Processing
+        self.sma = bt.ind.SimpleMovingAverage(period=200)  # Processing
+
+    def next(self):  # Processing
+        if self.sma > self.data.close:
+            self.buy()
+        elif self.sma < self.data.close: # Post-processing
+            self.close()
 
 
 """
@@ -39,26 +53,6 @@ class SMA50Strategy(bt.SignalStrategy):
             self.buy()
         elif self.sma < self.data.close: # Post-processing
             self.close()
-
-class SMA50StrategyLive(bt.SignalStrategy):
-    def __init__(self):  # Initiation
-        #if live_trading, close is the last data point from robin stocks
-        price = r.get_latest_price('TSLA')
-        close = price[0]
-        print(close)
-        
-        self.sma = bt.ind.SimpleMovingAverage(period=50)  # Processing      
-    
-    def next(self):  # Processing
-        if self.sma > self.data.close:
-            #robinstocks functions
-            self.buy()
-        elif self.sma < self.data.close: # Post-processing
-            self.close()
-
-#robinhood login
-def login():
-    r.login("jminniecc@gmail.com","hgPSznGL5STp8QK")
 
 """
 * backtest function
@@ -90,34 +84,14 @@ def backtest(strategy, ticker, fromdate, todate, cash, commission=0.00):
     plt.rcParams['figure.figsize'] = [15, 12]
     plt.rcParams.update({'font.size': 12}) 
     #cerebro.plot()
+
     #saves plot as png 
     figure = cerebro.plot(iplot=False)[0][0]
     figure.savefig('backtest_plot.png')
-
-
-def live_trade(ticker):
-
-    #call robinhood login
-    login()
-
-    price = r.get_latest_price(ticker)
-    close = price[0]
-    print("updated price", close)
-
-    cerebro = bt.Cerebro()
-    
-    SMA50StrategyLive(bt.SignalStrategy)
 
 
 if __name__ == '__main__':
 
     # backtest
     # todate +1 day for most recent closing price
-    backtest(strategy=SMA50Strategy, ticker='TSLA', fromdate='2018-01-01', todate='2022-04-19', cash=1000.0)
-
-    live_trading = input("Live market data? Y/N")
-    if live_trading == 'Y':
-        live_trade(ticker='TSLA')
-        
-
-
+    backtest(strategy=SMA200Strategy, ticker='TSLA', fromdate='2018-01-01', todate='2022-04-20', cash=1000.0)
