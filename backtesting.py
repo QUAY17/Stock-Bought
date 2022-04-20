@@ -46,6 +46,28 @@ class SMA50Strategy(bt.SignalStrategy):
         elif self.sma < self.data.close: # Post-processing
             self.close()
 
+def saveplots(cerebro, numfigs=1, iplot=True, start=None, end=None,
+            width=20, height=12, dpi=300, tight=True, use=None, file_path = '', **kwargs):
+
+    from backtrader import plot
+    if cerebro.p.oldsync:
+        plotter = plot.Plot_OldSync(**kwargs)
+    else:
+        plotter = plot.Plot(**kwargs)
+
+    figs = []
+    for stratlist in cerebro.runstrats:
+        for si, strat in enumerate(stratlist):
+            rfig = plotter.plot(strat, figid=si * 100,
+                                numfigs=numfigs, iplot=iplot,
+                                start=start, end=end, use=use)
+            figs.append(rfig)
+
+    for fig in figs:
+        for f in fig:
+            f.savefig(file_path, bbox_inches='tight')
+    return figs
+
 """
 * backtest function
 * uses strategy selection from user
@@ -72,14 +94,15 @@ def backtest(strategy, ticker, fromdate, todate, cash, commission=0.00):
     cerebro.run()
     print('Ending Portfolio Value: %.2f' % cerebro.broker.getvalue())
 
-    # plot it
-    plt.rcParams['figure.figsize'] = [15, 12]
-    plt.rcParams.update({'font.size': 12}) 
-    #cerebro.plot()
+    saveplots(cerebro, file_path = 'savefig.png') #run it
 
+    # plot it
+    #plt.rcParams['figure.figsize'] = [15, 12]
+    #plt.rcParams.update({'font.size': 12}) 
+    #cerebro.plot()
     #saves plot as png 
-    figure = cerebro.plot(iplot=False)[0][0]
-    figure.savefig('backtest_plot.png')
+    #figure = cerebro.plot(volume=False)[0][0]
+    #figure.savefig('backtest_plot.png')
 
 
 if __name__ == '__main__':
