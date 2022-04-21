@@ -33,16 +33,16 @@ class sma50hr():
             print('Moving average', self.moving_average)
 
             # get the current spot price
-            price = round(float(r.get_latest_price(ticker)[0]))
+            price = round(float(r.get_latest_price(self.ticker)[0]))
             print('Current price:', price)
 
             # trading logic:
-            if price <= moving_average:
-                print("Bought $1 of %s" % ticker)
+            if price <= self.moving_average:
+                print("Bought $1 of %s" % self.ticker)
                 #rorder_buy_fractional_by_price(ticker, amountInDollars=1)
 
             else:
-                print("Sold $1 of %s" % ticker)
+                print("Sold $1 of %s" % self.ticker)
                 #r.order_sell_fractional_by_price(ticker, amountInDollars=1)
 
             # update the moving average with the recent datapoint and recompute the moving average
