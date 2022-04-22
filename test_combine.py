@@ -9,13 +9,136 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from pyqtgraph import PlotWidget
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QToolTip, QMessageBox, QLabel)
 import fundamentals_functions as ff
 import robin_stocks_functions as rsf
 import fed_functions as fedf
 import backtesting as b
 import live_algorithms as live_algo
 
-class Ui_MainWindow(object):
+
+class Ui_LoginWindow(QMainWindow):
+    def setupUi(self, LoginWindow):
+        super().__init__()
+
+        LoginWindow.setObjectName("LoginWindow")
+        LoginWindow.setEnabled(True)
+        LoginWindow.resize(1057, 805)
+        LoginWindow.setStyleSheet("background-color: #ffffff")
+        self.centralwidget = QtWidgets.QWidget(LoginWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.background_color = QtWidgets.QLabel(self.centralwidget)
+        self.background_color.setGeometry(QtCore.QRect(0, 0, 1058, 753))
+        self.background_color.setAutoFillBackground(False)
+        self.background_color.setText("")
+        self.background_color.setPixmap(QtGui.QPixmap("background.png"))
+        self.background_color.setScaledContents(True)
+        self.background_color.setObjectName("background_color")
+        self.logo = QtWidgets.QLabel(self.centralwidget)
+        self.logo.setGeometry(QtCore.QRect(250, 110, 531, 181))
+        self.logo.setText("")
+        self.logo.setPixmap(QtGui.QPixmap("logo.png"))
+        self.logo.setScaledContents(True)
+        self.logo.setObjectName("logo")
+        self.label_email_background = QtWidgets.QLabel(self.centralwidget)
+        self.label_email_background.setGeometry(QtCore.QRect(260, 325, 511, 51))
+        self.label_email_background.setStyleSheet("background-color:  rgb(129, 146, 165);")
+        self.label_email_background.setText("")
+        self.label_email_background.setScaledContents(False)
+        self.label_email_background.setObjectName("label_email_background")
+        self.label_email = QtWidgets.QLabel(self.centralwidget)
+        self.label_email.setGeometry(QtCore.QRect(290, 335, 111, 31))
+        self.label_email.setMouseTracking(False)
+        self.label_email.setAutoFillBackground(False)
+        self.label_email.setStyleSheet("font-size: 15pt; color: rgb(0, 0, 0);\n"
+"background-color:  rgb(129, 146, 165);")
+        self.label_email.setWordWrap(False)
+        self.label_email.setObjectName("label_email")
+        self.label_pswd_background = QtWidgets.QLabel(self.centralwidget)
+        self.label_pswd_background.setGeometry(QtCore.QRect(260, 400, 511, 51))
+        self.label_pswd_background.setStyleSheet("background-color:  rgb(129, 146, 165);")
+        self.label_pswd_background.setText("")
+        self.label_pswd_background.setScaledContents(False)
+        self.label_pswd_background.setObjectName("label_pswd_background")
+        self.label_pswd = QtWidgets.QLabel(self.centralwidget)
+        self.label_pswd.setGeometry(QtCore.QRect(290, 410, 111, 31))
+        self.label_pswd.setAutoFillBackground(False)
+        self.label_pswd.setStyleSheet("font-size: 15pt; color: rgb(0, 0, 0);\n"
+"background-color:  rgb(129, 146, 165);")
+        self.label_pswd.setScaledContents(False)
+        self.label_pswd.setWordWrap(False)
+        self.label_pswd.setObjectName("label_pswd")
+        self.lineEdit_email = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_email.setGeometry(QtCore.QRect(340, 340, 391, 21))
+        self.lineEdit_email.setStyleSheet("font-size: 14pt; color: rgb(0, 0, 0);")
+        self.lineEdit_email.setObjectName("lineEdit_email")
+        self.lineEdit_pswd = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_pswd.setGeometry(QtCore.QRect(370, 415, 361, 21))
+        self.lineEdit_pswd.setStyleSheet("font-size: 14pt; color: rgb(0, 0, 0);")
+        self.lineEdit_pswd.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.lineEdit_pswd.setObjectName("lineEdit_pswd")
+        self.login_button = QtWidgets.QPushButton(self.centralwidget)
+        self.login_button.setGeometry(QtCore.QRect(430, 480, 181, 41))
+        self.login_button.setStyleSheet("font-size: 15pt; color: rgb(0, 0, 0); \n"
+"background-color:  rgb(129, 146, 165);")
+        self.login_button.clicked.connect(self.loginFunction, self.mainwindow)
+        self.loginwindow()
+        self.login_button.setObjectName("login_button")
+
+        self.error_label = QtWidgets.QLabel(self.centralwidget)
+        self.error_label.setGeometry(QtCore.QRect(415, 455, 271, 20))
+        self.error_label.setAutoFillBackground(False)
+        self.error_label.setStyleSheet("font-size: 11pt; color: rgb(252, 0, 7);\n"
+                                      "background-color:  rgb(34, 37, 40);")
+        self.error_label.setScaledContents(False)
+        self.error_label.setWordWrap(False)
+        self.error_label.setObjectName("error_label")
+
+        LoginWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(LoginWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1057, 24))
+        self.menubar.setObjectName("menubar")
+        LoginWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(LoginWindow)
+        self.statusbar.setObjectName("statusbar")
+        LoginWindow.setStatusBar(self.statusbar)
+
+        self.retranslateUi(LoginWindow)
+        QtCore.QMetaObject.connectSlotsByName(LoginWindow)
+
+    def loginFunction(self):
+        email = self.lineEdit_email.text()
+        password = self.lineEdit_pswd.text()
+
+        if len(email) == 0 or len(password) == 0:
+            self.error_label.setText("Please enter your login and password")
+
+        else:
+            rsf.login(email, password)
+
+
+        #rsf.login(email, password)
+
+    def loginwindow(self):
+        self.label = QLabel("Manager", self)
+        self.label.move(285, 175)
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.top, self.left, self.width, self.height)
+        self.show()
+
+    def mainwindow(self):
+        self.w = Ui_MainWindow()
+        self.w.show()
+        self.hide()
+
+    def retranslateUi(self, LoginWindow):
+        _translate = QtCore.QCoreApplication.translate
+        LoginWindow.setWindowTitle(_translate("LoginWindow", "LoginWindow"))
+        self.label_email.setText(_translate("LoginWindow", "Email:"))
+        self.label_pswd.setText(_translate("LoginWindow", "Password:"))
+        self.login_button.setText(_translate("LoginWindow", "Sign In"))
+
+class Ui_MainWindow(QMainWindow):
     name_stock = ""
 
     def setupUi(self, MainWindow):
@@ -533,6 +656,7 @@ class Ui_MainWindow(object):
         self.graph.clear()
         self.graph.setGeometry(QtCore.QRect(400, 10, 641, 291))
         self.graph.raise_()
+        rsf.login("ppo", "poop")
         results = rsf.top_panel(name_stock)
         self.graph.plot(results[0], results[1])
         self.stock_name.setGeometry(QtCore.QRect(950, 15, 141, 31))
