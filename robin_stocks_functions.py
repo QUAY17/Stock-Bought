@@ -210,6 +210,6 @@ def top_panel(ticker):
 		prices.append(float(datum['close_price']))
 		times.append(datum['begins_at']) # needs better formatting
 
-	plt.plot(range(len(prices)), prices)
+	plt.plot(times, prices)
 	plt.show()
 
