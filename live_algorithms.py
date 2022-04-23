@@ -38,12 +38,12 @@ class sma50hr():
 
             # trading logic:
             if price <= self.moving_average:
-                print("Bought $1 of %s" % self.ticker)
-                #rorder_buy_fractional_by_price(ticker, amountInDollars=1)
+                print("Submitted order to buy $1 of %s" % self.ticker)
+                print(r.order_buy_fractional_by_price(self.ticker, amountInDollars=1))
 
             else:
-                print("Sold $1 of %s" % self.ticker)
-                #r.order_sell_fractional_by_price(ticker, amountInDollars=1)
+                print("Submitted order to sell $1 of %s" % self.ticker)
+                print(r.order_sell_fractional_by_price(self.ticker, amountInDollars=1))
 
             # update the moving average with the recent datapoint and recompute the moving average
             # first remove the first point put in initially to make room using .get()
