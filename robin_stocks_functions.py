@@ -201,15 +201,24 @@ Plot for top panel
 """
 
 def top_panel(ticker):
+	
 	# get historical data, default is hourly for the past week
 	data = robin_stocks.robinhood.stocks.get_stock_historicals(ticker, interval='hour', span='month')
-
 	prices = []
 	times = []
 	for datum in data:
 		prices.append(float(datum['close_price']))
 		times.append(datum['begins_at']) # needs better formatting
 
+	# plot it
 	plt.plot(times, prices)
+	plt.xlabel('Past Month')
+	plt.ylabel('Price $')
+	plt.tick_params(
+		axis='x',          # changes apply to the x-axis
+		which='both',      # both major and minor ticks are affected
+		bottom=False,      # ticks along the bottom edge are off
+		top=False,         # ticks along the top edge are off
+		labelbottom=False) # labels along the bottom edge are off
 	plt.show()
 
