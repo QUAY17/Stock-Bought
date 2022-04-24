@@ -15,10 +15,11 @@ Statement of Proposal: We propose to build a software toolkit that is meant to b
 Robinhood’s API. Our tools include the additional functionality of aggregating external data, editing stock price target models, backtesting tools, and automated execution of
 certain actions on Robinhood—namely buy/sell orders.
 
+
 Please see requirements.txt for installation instructions, also posted below:
 
-# requirement packages for the project
-# running 'pip install -r requirements.txt' will install everything here in one go
+Requirement packages for the project
+Running 'pip install -r requirements.txt' will install everything here 
 
 robin-stocks==2.1.0
 PyQt5==5.15.4
@@ -31,7 +32,6 @@ statsmodels==0.13.2
 backtrader==1.9.76.123
 pyqtgraph==0.11.1
 
-
-# for ubuntu:
+For ubuntu:
 #sudo apt-get build-dep qt5-default
 #sudo apt-get install libxcb-xinerama0-dev
