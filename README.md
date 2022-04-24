@@ -34,5 +34,5 @@ python-dateutil==2.8.2 <br>
 requests==2.27.1 <br>
 
 For Ubuntu: <br>
-sudo apt-get build-dep qt5-default <br>
-sudo apt-get install libxcb-xinerama0-dev <br>
+#sudo apt-get build-dep qt5-default <br>
+#sudo apt-get install libxcb-xinerama0-dev <br>
