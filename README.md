@@ -31,7 +31,7 @@ statsmodels==0.13.2 <br>
 backtrader==1.9.76.123 <br>
 pyqtgraph==0.11.1 <br>
 python-dateutil==2.8.2 <br>
-requests==2.27.1
+requests==2.27.1 <br>
 
 For Ubuntu: <br>
 sudo apt-get build-dep qt5-default <br>
