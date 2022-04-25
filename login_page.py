@@ -24,7 +24,7 @@ class Ui_LoginWindow(object):
         self.ui = Ui_Dialog()
         self.ui.setupUi(self.window)
         self.window.show()
-        #self.close()
+        LoginWindow.hide()
 
 
     #def openWindow(self):
