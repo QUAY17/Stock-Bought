@@ -9,6 +9,8 @@ def login(email, password):
 	'''login to robinhood account'''
 	r.login(email, password)
 
+def logout():
+	r.logout()
 
 def get_quote(ticker):
 	'''get quote (misc info) for a given company'''

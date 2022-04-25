@@ -3,8 +3,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from step_code_var import Ui_Dialog
 #from stockboughtgui import Ui_MainWindow
 import robin_stocks_functions as rsf
-import robin_stocks
-import robin_stocks.robinhood as r
+
 #import robin_stocks as robin
 #import robin_stocks.urls as urls
 #import robin_stocks.helper as helper
@@ -22,7 +21,7 @@ class Ui_LoginWindow(object):
         if email.find(atSymbol) == -1 or len(email) == 0 or len(password) == 0:
             self.error_label.setText("Please enter your login and password")
         else:
-            r.login(email, password)
+            rsf.login(email, password)
             self.window = QtWidgets.QDialog()
             self.ui = Ui_Dialog()
             self.ui.setupUi(self.window)
