@@ -90,11 +90,13 @@ class Ui_LoginWindow(object):
         self.label_pswd.setObjectName("label_pswd")
         self.lineEdit_email = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit_email.setGeometry(QtCore.QRect(340, 340, 391, 21))
-        self.lineEdit_email.setStyleSheet("font-size: 14pt; color: rgb(0, 0, 0);")
+        self.lineEdit_email.setStyleSheet("font-size: 14pt; color: rgb(0, 0, 0); \n"
+                                          "background-color:  rgb(255, 255, 255);")
         self.lineEdit_email.setObjectName("lineEdit_email")
         self.lineEdit_pswd = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit_pswd.setGeometry(QtCore.QRect(370, 415, 361, 21))
-        self.lineEdit_pswd.setStyleSheet("font-size: 14pt; color: rgb(0, 0, 0);")
+        self.lineEdit_pswd.setStyleSheet("font-size: 14pt; color: rgb(0, 0, 0); \n"
+                                          "background-color:  rgb(255, 255, 255);")
         #set password to echomode so that password is dots
         self.lineEdit_pswd.setEchoMode(QtWidgets.QLineEdit.Password)
         self.lineEdit_pswd.setObjectName("lineEdit_pswd")
