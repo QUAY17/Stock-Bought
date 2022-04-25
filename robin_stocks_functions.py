@@ -211,14 +211,15 @@ def top_panel(ticker):
 		times.append(datum['begins_at']) # needs better formatting
 
 	# plot it
-	plt.plot(times, prices)
-	plt.xlabel('Past Month')
-	plt.ylabel('Price $')
-	plt.tick_params(
-		axis='x',          # changes apply to the x-axis
-		which='both',      # both major and minor ticks are affected
-		bottom=False,      # ticks along the bottom edge are off
-		top=False,         # ticks along the top edge are off
-		labelbottom=False) # labels along the bottom edge are off
-	plt.show()
+	#plt.plot(times, prices)
+	#plt.xlabel('Past Month')
+	#plt.ylabel('Price $')
+	#plt.tick_params(
+	#	axis='x',          # changes apply to the x-axis
+	#	which='both',      # both major and minor ticks are affected
+	#	bottom=False,      # ticks along the bottom edge are off
+	#	top=False,         # ticks along the top edge are off
+	#	labelbottom=False) # labels along the bottom edge are off
+	#plt.show()
 
+	return range(len(times)), prices
