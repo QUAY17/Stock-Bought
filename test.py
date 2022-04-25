@@ -1,5 +1,5 @@
 import robin_stocks_functions as rsf
-import fundamentals_functions as ff
+import financial_analyst_functions as ff
 import fed_functions as fed
 
 # testing some robin_stocks functions:

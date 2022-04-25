@@ -9,7 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from pyqtgraph import PlotWidget
-import fundamentals_functions as ff
+import financial_analyst_functions as ff
 import robin_stocks_functions as rsf
 import fed_functions as fedf
 import backtesting as b
