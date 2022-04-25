@@ -433,7 +433,7 @@ class Ui_MainWindow(object):
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
                                                          "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">" + "{:.2%}".format(fedf.get_unemployment_rate()) + "</span></p></body></html>"))
+                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">" + "{:.2}".format(fedf.get_unemployment_rate()) + "</span></p></body></html>"))
         self.label_MED3.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
@@ -444,7 +444,7 @@ class Ui_MainWindow(object):
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
                                                          "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">" + "{:.2%}".format(fedf.get_interest_rate()) + "</span></p></body></html>"))
+                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">" + "{:.2}".format(fedf.get_interest_rate()) + "</span></p></body></html>"))
         self.label_MED5.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
@@ -454,7 +454,9 @@ class Ui_MainWindow(object):
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
                                                          "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">" + "{:.2%}".format(fedf.get_overnight_rate()) + "</span></p></body></html>"))
+                                                         "<p style=\" "
+                                                         "margin-top:0px; "
+                                                         "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">" + "{:.2}".format(fedf.get_overnight_rate()) + "%" + "</span></p></body></html>"))
         self.label_MED7.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
@@ -464,7 +466,9 @@ class Ui_MainWindow(object):
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
                                                          "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">" + "{:.9}".format(fedf.get_gdp()) + "</span></p></body></html>"))
+                                                         "<p style=\" "
+                                                         "margin-top:0px; "
+                                                         "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">" + "{:.9}".format(fedf.get_gdp()) + "%" + "</span></p></body></html>"))
         self.label_MED9.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
@@ -479,17 +483,14 @@ class Ui_MainWindow(object):
         self.fad_med.setGeometry(QtCore.QRect(700, 310, 20, 131))
         self.fad_med.raise_()
         self.fad_med.show()
-        print(fedf.get_cpi())
 
     def name_entered(self):
         _translate = QtCore.QCoreApplication.translate
         global name_stock
         name_stock = self.search_stock.text()
-        print(name_stock)
         self.graph.clear()
         self.graph.setGeometry(QtCore.QRect(400, 10, 641, 291))
         self.graph.raise_()
-        rsf.login("ppo", "poop")
         results = rsf.top_panel(name_stock)
         self.graph.plot(results[0], results[1])
         self.graph.getPlotItem().hideAxis('bottom')
@@ -528,9 +529,6 @@ class Ui_MainWindow(object):
 
     def backtestclicked(self):
         global name_stock
-        print(self.begin_date.text())
-        print(self.end_date.text())
-        print(self.trading_algo_menu.currentText())
 
         if self.trading_algo_menu.currentText() == "DMA Strategy":
             b.backtest(strategy=b.DMAStrategy, ticker=name_stock, fromdate=self.begin_date.text(), todate=self.end_date.text(), cash=1000.0)
