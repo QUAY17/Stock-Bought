@@ -533,6 +533,7 @@ class Ui_MainWindow(object):
         self.graph.clear()
         self.graph.setGeometry(QtCore.QRect(400, 10, 641, 291))
         self.graph.raise_()
+        #rsf.login("ppo", "poop")
         results = rsf.top_panel(name_stock)
         self.graph.plot(results[0], results[1])
         self.stock_name.setGeometry(QtCore.QRect(950, 15, 141, 31))
