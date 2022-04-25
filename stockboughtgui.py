@@ -49,9 +49,10 @@ class Ui_MainWindow(object):
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
         self.logo = QtWidgets.QLabel(self.centralwidget)
-        self.logo.setGeometry(QtCore.QRect(-40, 0, 421, 131))
+        self.logo.setGeometry(QtCore.QRect(0, 10, 370, 131))
         self.logo.setText("")
-        self.logo.setPixmap(QtGui.QPixmap("logo.png"))
+        self.logo.setPixmap(QtGui.QPixmap("logoWTextOffWhite.png"))
+        self.logo.setScaledContents(True)
         self.logo.setObjectName("logo")
         self.background = QtWidgets.QLabel(self.centralwidget)
         self.background.setGeometry(QtCore.QRect(-20, 0, 1141, 761))
@@ -488,9 +489,10 @@ class Ui_MainWindow(object):
         self.graph.clear()
         self.graph.setGeometry(QtCore.QRect(400, 10, 641, 291))
         self.graph.raise_()
-        #rsf.login("ppo", "poop")
+        rsf.login("ppo", "poop")
         results = rsf.top_panel(name_stock)
         self.graph.plot(results[0], results[1])
+        self.graph.getPlotItem().hideAxis('bottom')
         self.stock_name.setGeometry(QtCore.QRect(950, 15, 141, 31))
         self.stock_name.raise_()
         self.search_stock.clear()
@@ -521,7 +523,7 @@ class Ui_MainWindow(object):
         self.label_MED8.setText("")
         self.label_MED9.setText("")
         self.label_MED10.setText("")
-        self.backtest_picture.setText("")
+        self.backtest_picture.hide()
         self.fad_med.hide()
 
     def backtestclicked(self):
@@ -541,6 +543,7 @@ class Ui_MainWindow(object):
 
         self.backtest_picture.setScaledContents(True)
         self.backtest_picture.setPixmap(QtGui.QPixmap("savefig.png"))
+        self.backtest_picture.show()
         self.begin_date.clear()
         self.end_date.clear()
 
