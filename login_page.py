@@ -17,14 +17,16 @@ class Ui_LoginWindow(object):
     def openWindow(self):
         email = self.lineEdit_email.text()
         password = self.lineEdit_pswd.text()
-        rsf.login(email, password)
-        #rsf.login(self.lineEdit_email, self.lineEdit_pswd)
-
-        self.window = QtWidgets.QDialog()
-        self.ui = Ui_Dialog()
-        self.ui.setupUi(self.window)
-        self.window.show()
-        LoginWindow.hide()
+        atSymbol = '@'
+        if email.find(atSymbol) == -1 or len(email) == 0 or len(password) == 0:
+            self.error_label.setText("Please enter your login and password")
+        else:
+            rsf.login(email, password)
+            self.window = QtWidgets.QDialog()
+            self.ui = Ui_Dialog()
+            self.ui.setupUi(self.window)
+            self.window.show()
+            LoginWindow.hide()
 
 
     #def openWindow(self):
