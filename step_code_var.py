@@ -33,9 +33,10 @@ class Ui_Dialog(object):
         self.lineEdit.setStyleSheet("background-color: rgb(238, 238, 236);\n"
 "font-size: 14pt; color: rgb(0, 0, 0);")
         self.lineEdit.setObjectName("lineEdit")
+        #function call to openWindow on button press.
         self.pushButton = QtWidgets.QPushButton(Dialog, clicked = lambda: self.openWindow())
         self.pushButton.setGeometry(QtCore.QRect(130, 70, 101, 21))
-        self.pushButton.setStyleSheet("background-color: rgb(0, 0, 0);")
+        self.pushButton.setStyleSheet("background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)")
         self.pushButton.setObjectName("pushButton")
 
         self.retranslateUi(Dialog)

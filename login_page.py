@@ -1,10 +1,8 @@
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 from step_code_var import Ui_Dialog
-from stockboughtgui import Ui_MainWindow
+#from stockboughtgui import Ui_MainWindow
 import robin_stocks_functions as rsf
-import stockboughtgui as sbg
 
 #import robin_stocks as robin
 #import robin_stocks.urls as urls
@@ -15,30 +13,38 @@ import stockboughtgui as sbg
 
 class Ui_LoginWindow(object):
 
-    #def openWindow(self):
-    #   email = self.lineEdit_email.text()
-#    password = self.lineEdit_pswd.text()
- #       rsf.login(email, password)
-
-  #      self.window = QtWidgets.QDialog()
-   #     self.ui = Ui_Dialog()
-    #   self.window.show()
-
+    #used for opening step_code_var window.
     def openWindow(self):
         email = self.lineEdit_email.text()
         password = self.lineEdit_pswd.text()
         rsf.login(email, password)
+        #rsf.login(self.lineEdit_email, self.lineEdit_pswd)
 
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
+        self.window = QtWidgets.QDialog()
+        self.ui = Ui_Dialog()
         self.ui.setupUi(self.window)
         self.window.show()
+        #self.close()
 
+
+    #def openWindow(self):
+        #email = self.lineEdit_email.text()
+        #password = self.lineEdit_pswd.text()
+        #rsf.login(email, password)
+        #rsf.login(self.lineEdit_email, self.lineEdit_pswd)
+
+       # self.window = QtWidgets.QMainWindow()
+        #self.ui = Ui_MainWindow()
+       # self.ui.setupUi(self.window)
+       # self.window.show()
+
+
+    #main window UI
     def setupUi(self, LoginWindow):
         LoginWindow.setObjectName("LoginWindow")
         LoginWindow.setEnabled(True)
         LoginWindow.resize(1057, 805)
-        LoginWindow.setStyleSheet("background-color: #ffffff")
+        LoginWindow.setStyleSheet("background-color: rgb(34, 37, 40);")
         self.centralwidget = QtWidgets.QWidget(LoginWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.background_color = QtWidgets.QLabel(self.centralwidget)
@@ -51,7 +57,7 @@ class Ui_LoginWindow(object):
         self.logo = QtWidgets.QLabel(self.centralwidget)
         self.logo.setGeometry(QtCore.QRect(250, 110, 531, 181))
         self.logo.setText("")
-        self.logo.setPixmap(QtGui.QPixmap("logo.png"))
+        self.logo.setPixmap(QtGui.QPixmap("logoWTextOffWhite.png"))
         self.logo.setScaledContents(True)
         self.logo.setObjectName("logo")
         self.label_email_background = QtWidgets.QLabel(self.centralwidget)
@@ -89,13 +95,15 @@ class Ui_LoginWindow(object):
         self.lineEdit_pswd = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit_pswd.setGeometry(QtCore.QRect(370, 415, 361, 21))
         self.lineEdit_pswd.setStyleSheet("font-size: 14pt; color: rgb(0, 0, 0);")
+        #set password to echomode so that password is dots
         self.lineEdit_pswd.setEchoMode(QtWidgets.QLineEdit.Password)
         self.lineEdit_pswd.setObjectName("lineEdit_pswd")
-        self.login_button = QtWidgets.QPushButton(self.centralwidget)
+        #function call to openWindow
+        self.login_button = QtWidgets.QPushButton(self.centralwidget, clicked = lambda: self.openWindow())
         self.login_button.setGeometry(QtCore.QRect(430, 480, 181, 41))
         self.login_button.setStyleSheet("font-size: 15pt; color: rgb(0, 0, 0); \n"
 "background-color:  rgb(129, 146, 165);")
-        self.login_button.clicked.connect(self.openWindow())
+        #self.login_button.clicked.connect(lambda:self.close())
         self.login_button.setObjectName("login_button")
 
         self.error_label = QtWidgets.QLabel(self.centralwidget)
@@ -119,6 +127,8 @@ class Ui_LoginWindow(object):
         self.retranslateUi(LoginWindow)
         QtCore.QMetaObject.connectSlotsByName(LoginWindow)
 
+    #Error message statements if user doesn't correctly input login info
+
     #def loginFunction(self):
     #    email = self.lineEdit_email.text()
     #    password = self.lineEdit_pswd.text()
@@ -131,32 +141,7 @@ class Ui_LoginWindow(object):
             #self.openWindow()
             #self.step_var_popup()
 
-
         #rsf.login(email, password)
-
-    #def step_var_popup(self):
-     #   QMessageBox.setObjectName("QMsgBox")
-      #  QMessageBox.resize(378, 109)
-       # QMessageBox.setStyleSheet("background-color: rgb(34, 37, 40);")
-      #  self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
-      #  self.buttonBox.setGeometry(QtCore.QRect(90, 70, 171, 32))
-      #  self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-      #  self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
-      #  self.buttonBox.setObjectName("buttonBox")
-      #  self.label = QtWidgets.QLabel(QMessageBox)
-      #  self.label.setGeometry(QtCore.QRect(70, 10, 251, 16))
-      #  self.label.setObjectName("label")
-      #  self.lineEdit = QtWidgets.QLineEdit(QMessageBox)
-      #  self.lineEdit.setGeometry(QtCore.QRect(82, 40, 211, 21))
-      #  self.lineEdit.setStyleSheet("background-color: rgb(129, 146, 165);\n"
-       #                                 "font-size: 14pt; color: rgb(0, 0, 0);")
-      #  self.lineEdit.setObjectName("lineEdit")
-
-      #  self.retranslateUi(QMessageBox)
-      #  self.buttonBox.accepted.connect(QMessageBox.accept)
-      #  self.buttonBox.rejected.connect(QMessageBox.reject)
-      #  QtCore.QMetaObject.connectSlotsByName(QMessageBox)
-
 
 
     def retranslateUi(self, LoginWindow):
