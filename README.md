@@ -15,24 +15,12 @@ Robinhood’s API. Our tools include the additional functionality of aggregating
 certain actions on Robinhood—namely buy/sell orders.
 
 
-# Please see requirements.txt for installation instructions, also posted below:
+# For Ubuntu installation:
+1. Create a new virtual environment with python3.9.7 (optional)
+2. Activate the new virtual environment with source *env_name*/bin/activate
+3. Now inside your new environment change directories to the project folder 
+4. Run 'pip install -r ubuntu_requirements.txt' to install all the required libraries (required)
 
-Requirement packages for the project <br>
-Running 'pip install -r requirements.txt' will install everything here <br>
 
-robin-stocks==2.1.0 <br>
-PyQt5==5.15.4 <br>
-PyQt5-sip==12.9.0 <br>
-PyQtWebEngine==5.15.4 <br>
-yfinance==0.1.70 <br>
-matplotlib==3.4.3 <br>
-fredpy==3.2.6 <br>
-statsmodels==0.13.2 <br>
-backtrader==1.9.76.123 <br>
-pyqtgraph==0.11.1 <br>
-python-dateutil==2.8.2 <br>
-requests==2.27.1 <br>
-
-For Ubuntu: <br>
-#sudo apt-get build-dep qt5-default <br>
-#sudo apt-get install libxcb-xinerama0-dev <br>
+# To run the program run the following line:
+1. `python login_page.py`
