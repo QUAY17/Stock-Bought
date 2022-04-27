@@ -12,7 +12,7 @@ import threading
 import time
 import backtesting as b
 import fed_functions as fedf
-import fundamentals_functions as ff
+import financial_analyst_functions as ff
 import live_algorithms as live_algo
 import robin_stocks_functions as rsf
 import robin_stocks
@@ -35,10 +35,14 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.gather_MED = QtWidgets.QPushButton(self.centralwidget)
         self.gather_MED.setGeometry(QtCore.QRect(10, 310, 351, 61))
+        self.gather_MED.setStyleSheet("font-size: 14pt; color: rgb(255, 255, 255); \n"
+                                        "background-color:  rgb(68, 73, 75);")
         self.gather_MED.setAutoFillBackground(False)
         self.gather_MED.setObjectName("gather_MED")
         self.gather_FAD = QtWidgets.QPushButton(self.centralwidget)
         self.gather_FAD.setGeometry(QtCore.QRect(10, 230, 351, 61))
+        self.gather_FAD.setStyleSheet("font-size: 14pt; color: rgb(255, 255, 255); \n"
+                                      "background-color:  rgb(68, 73, 75);")
         self.gather_FAD.setObjectName("gather_FAD")
         self.gather_FAD.clicked.connect(self.fundamentalcliked)
         self.gather_MED.clicked.connect(self.macrocliked)
@@ -52,7 +56,7 @@ class Ui_MainWindow(object):
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
         self.logo = QtWidgets.QLabel(self.centralwidget)
-        self.logo.setGeometry(QtCore.QRect(0, 10, 370, 131))
+        self.logo.setGeometry(QtCore.QRect(8, 10, 360, 130))
         self.logo.setText("")
         self.logo.setPixmap(QtGui.QPixmap("logoWTextOffWhite.png"))
         self.logo.setScaledContents(True)
@@ -108,15 +112,23 @@ class Ui_MainWindow(object):
         self.line_4.setObjectName("line_4")
         self.search_stock = QtWidgets.QLineEdit(self.centralwidget)
         self.search_stock.setGeometry(QtCore.QRect(10, 170, 351, 31))
+        self.search_stock.setStyleSheet("color: rgb(255, 255, 255); \n"
+                                      "background-color:  rgb(45, 45, 45);")
         self.search_stock.setObjectName("search_stock")
         self.begin_date = QtWidgets.QLineEdit(self.centralwidget)
         self.begin_date.setGeometry(QtCore.QRect(87, 540, 270, 21))
+        self.begin_date.setStyleSheet("color: rgb(255, 255, 255); \n"
+                                      "background-color:  rgb(45, 45, 45);")
         self.begin_date.setObjectName("begin_date")
         self.end_date = QtWidgets.QLineEdit(self.centralwidget)
         self.end_date.setGeometry(QtCore.QRect(75, 590, 283, 21))
+        self.end_date.setStyleSheet("color: rgb(255, 255, 255); \n"
+                                      "background-color:  rgb(45, 45, 45);")
         self.end_date.setObjectName("end_date")
         self.trading_algo_menu = QtWidgets.QComboBox(self.centralwidget)
-        self.trading_algo_menu.setGeometry(QtCore.QRect(135, 650, 230, 25))
+        self.trading_algo_menu.setGeometry(QtCore.QRect(140, 650, 215, 25))
+        self.trading_algo_menu.setStyleSheet("color: rgb(255, 255, 255); \n"
+                                      "background-color:  rgb(68, 73, 75);")
         self.trading_algo_menu.setObjectName("trading_algo_menu")
         self.trading_algo_menu.addItem("")
         self.trading_algo_menu.addItem("")
@@ -133,7 +145,9 @@ class Ui_MainWindow(object):
         self.trading_algo.setFont(font)
         self.trading_algo.setObjectName("trading_algo")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(30, 695, 311, 60))
+        self.pushButton.setGeometry(QtCore.QRect(30, 695, 311, 55))
+        self.pushButton.setStyleSheet("color: rgb(255, 255, 255); \n"
+                                      "background-color:  rgb(68, 73, 75);")
         font = QtGui.QFont()
         font.setPointSize(14)
         self.pushButton.setFont(font)
@@ -232,6 +246,8 @@ class Ui_MainWindow(object):
         self.stop_live_trade.setObjectName("stop_live_trade")
         self.live_trade = QtWidgets.QPushButton(self.centralwidget)
         self.live_trade.setGeometry(QtCore.QRect(10, 390, 351, 61))
+        self.live_trade.setStyleSheet("color: rgb(255, 255, 255); \n"
+                                      "background-color:  rgb(68, 73, 75);")
         font = QtGui.QFont()
         font.setPointSize(16)
         font.setBold(True)

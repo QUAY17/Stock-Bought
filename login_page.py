@@ -107,7 +107,7 @@ class Ui_LoginWindow(object):
         self.login_button.setGeometry(QtCore.QRect(430, 480, 181, 41))
         self.login_button.setStyleSheet("font-size: 15pt; color: rgb(0, 0, 0); \n"
 "background-color:  rgb(129, 146, 165);")
-        #self.login_button.clicked.connect(lambda:self.close())
+        #self.login_button.clicked.connect(self.openWindow())
         self.login_button.setObjectName("login_button")
 
         self.error_label = QtWidgets.QLabel(self.centralwidget)
