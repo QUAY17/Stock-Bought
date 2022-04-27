@@ -6,14 +6,17 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 from pyqtgraph import PlotWidget
-import financial_analyst_functions as ff
-import robin_stocks_functions as rsf
-import fed_functions as fedf
+import threading
+import time
 import backtesting as b
+import fed_functions as fedf
+import fundamentals_functions as ff
 import live_algorithms as live_algo
+import robin_stocks_functions as rsf
+import robin_stocks
+import robin_stocks.robinhood as r
 
 
 class Ui_MainWindow(object):
@@ -297,6 +300,7 @@ class Ui_MainWindow(object):
         self.live_trade.clicked.connect(self.livetradingclicked)
         self.stop_live_trade.clicked.connect(self.livetradingstopped)
         self.pushButton.clicked.connect(self.backtestclicked)
+        # app.aboutToQuit.connect(self.close)
         self.search_stock.returnPressed.connect(lambda: self.name_entered())
 
     def retranslateUi(self, MainWindow):
@@ -323,8 +327,7 @@ class Ui_MainWindow(object):
         global name_stock
         data_forwards = ff.get_forwards(name_stock)
         data_margins = ff.get_margins(name_stock)
-        self.financial_ad_label.setText(_translate("MainWindow",
-                                                   "<html><head/><body><p><span style=\" color:#ffffff;\">Financial Analyst Data</span></p></body></html>"))
+        self.financial_ad_label.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" color:#ffffff;\">Financial Analyst Data</span></p></body></html>"))
         self.label_FAD1.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
@@ -337,8 +340,11 @@ class Ui_MainWindow(object):
                                                          "-qt-block-indent:0; "
                                                          "text-indent:0px;\"><span "
                                                          "style=\" color:#ffffff;\">Profit Margins</span></p></body></html>"))
-        self.label_FAD2.setText(_translate("MainWindow", "<html><head/><body><p><span "
-                                                         "style=\" color:#ffffff;\">" + "{:.2%}".format(data_margins[0]) + "</span></p></body></html>"))
+        if data_margins[0] is not "None":
+            self.label_FAD2.setText(_translate("MainWindow", "<html><head/><body><p><span ""style=\" color:#ffffff;\">" + "{:.2%}".format(data_margins[0]) + "</span></p></body></html>"))
+        else:
+            self.label_FAD2.setText(_translate("MainWindow", "<html><head/><body><p><span "
+                                                             "style=\" color:#ffffff;\">" + "None" + "</span></p></body></html>"))
         self.label_FAD3.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
@@ -354,7 +360,8 @@ class Ui_MainWindow(object):
                                                          "style=\" color:#ffffff;\">Gross "
                                                          "Margins</span></p>\n"
                                                          "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#ffffff;\"><br /></p></body></html>"))
-        self.label_FAD4.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        if data_margins[1] is not "None":
+            self.label_FAD4.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
                                                          "</style></head><body style=\" "
@@ -367,6 +374,20 @@ class Ui_MainWindow(object):
                                                          "-qt-block-indent:0; "
                                                          "text-indent:0px;\"><span "
                                                          "style=\" color:#ffffff;\">" + "{:.2%}".format(data_margins[1]) + "</span></p></body></html>"))
+        else:
+            self.label_FAD4.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                                                             "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                                                             "p, li { white-space: pre-wrap; }\n"
+                                                             "</style></head><body style=\" "
+                                                             "font-family:\'Ubuntu\'; "
+                                                             "font-size:12pt; font-weight:400; font-style:normal;\">\n"
+                                                             "<p style=\" margin-top:0px; "
+                                                             "margin-bottom:0px; "
+                                                             "margin-left:0px; "
+                                                             "margin-right:0px; "
+                                                             "-qt-block-indent:0; "
+                                                             "text-indent:0px;\"><span "
+                                                             "style=\" color:#ffffff;\">" + "None" + "</span></p></body></html>"))
         self.label_FAD5.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
@@ -382,7 +403,8 @@ class Ui_MainWindow(object):
                                                          "style=\" "
                                                          "color:#ffffff;\">Operating Margins"
                                                          "</span></p></body></html>"))
-        self.label_FAD6.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        if data_margins[2] is not "None":
+            self.label_FAD6.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
                                                          "</style></head><body style=\" "
@@ -395,26 +417,54 @@ class Ui_MainWindow(object):
                                                          "-qt-block-indent:0; "
                                                          "text-indent:0px;\"><span "
                                                          "style=\" color:#ffffff;\">" + "{:.2%}".format(data_margins[2]) + "</span></p></body></html>"))
+        else:
+            self.label_FAD6.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                                                             "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                                                             "p, li { white-space: pre-wrap; }\n"
+                                                             "</style></head><body style=\" "
+                                                             "font-family:\'Ubuntu\'; "
+                                                             "font-size:12pt; font-weight:400; font-style:normal;\">\n"
+                                                             "<p style=\" margin-top:0px; "
+                                                             "margin-bottom:0px; "
+                                                             "margin-left:0px; "
+                                                             "margin-right:0px; "
+                                                             "-qt-block-indent:0; "
+                                                             "text-indent:0px;\"><span "
+                                                             "style=\" color:#ffffff;\">" + "None" + "</span></p></body></html>"))
         self.label_FAD7.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
                                                          "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
                                                          "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">Forward ESP</span></p></body></html>"))
-        self.label_FAD8.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        if data_forwards[0] is not "None":
+            self.label_FAD8.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
                                                          "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
                                                          "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">" + "{0:.7}".format(data_forwards[0]) + "</span></p></body></html>"))
+        else:
+            self.label_FAD8.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                                                             "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                                                             "p, li { white-space: pre-wrap; }\n"
+                                                             "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+                                                             "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">" + "None" + "</span></p></body></html>"))
         self.label_FAD9.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
                                                          "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
                                                          "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">Forward PE</span></p></body></html>"))
-        self.label_FAD10.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        if data_forwards[1] is not "None":
+            self.label_FAD10.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                                           "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                           "p, li { white-space: pre-wrap; }\n"
                                                           "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
                                                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">" + "{0:.5}".format(data_forwards[1]) + "</span></p></body></html>"))
+        else:
+            self.label_FAD10.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                                                          "p, li { white-space: pre-wrap; }\n"
+                                                          "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+                                                          "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">" + "None" + "</span></p></body></html>"))
         self.fad_med.setGeometry(QtCore.QRect(700, 310, 20, 131))
         self.fad_med.raise_()
         self.fad_med.show()
@@ -433,7 +483,7 @@ class Ui_MainWindow(object):
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
                                                          "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">" + "{:.2}".format(fedf.get_unemployment_rate()) + "</span></p></body></html>"))
+                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">" + "{:.2}".format(fedf.get_unemployment_rate()) + "%" + "</span></p></body></html>"))
         self.label_MED3.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
@@ -444,7 +494,7 @@ class Ui_MainWindow(object):
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
                                                          "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">" + "{:.2}".format(fedf.get_interest_rate()) + "</span></p></body></html>"))
+                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ffffff;\">" + "{:.2}".format(fedf.get_interest_rate()) + "%" + "</span></p></body></html>"))
         self.label_MED5.setText(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                                                          "p, li { white-space: pre-wrap; }\n"
@@ -487,6 +537,7 @@ class Ui_MainWindow(object):
     def name_entered(self):
         _translate = QtCore.QCoreApplication.translate
         global name_stock
+        rsf.login("jminniecc@gmail.com", "hgPSznGL5STp8QK")
         name_stock = self.search_stock.text()
         self.graph.clear()
         self.graph.setGeometry(QtCore.QRect(400, 10, 641, 291))
@@ -550,11 +601,19 @@ class Ui_MainWindow(object):
         self.stop_live_trade.show()
         self.live_trade.hide()
         sma = live_algo.sma50hr(name_stock)
-        sma.start_trading()
+        t = threading.Thread(target=sma.start_trading())
+        time.sleep(5)
+        sma.stop_trading()
+        t.join()
 
     def livetradingstopped(self):
         self.live_trade.show()
         self.stop_live_trade.hide()  # live_algo.kill_switch(True)
+
+    def close(self):
+        r.logout()
+        import sys
+        sys.exit(0)
 
 
 if __name__ == "__main__":
