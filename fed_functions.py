@@ -5,7 +5,7 @@ import fredpy as fp
 import datetime
 import pandas as pd
 
-def load_api_key():
+def enter_api_key():
 	fp.api_key = '59b76a3e8c24982778e2ae0c69a92996' # hardcoded student account
 
 def get_unemployment_rate():
