@@ -553,7 +553,7 @@ class Ui_MainWindow(object):
     def name_entered(self):
         _translate = QtCore.QCoreApplication.translate
         global name_stock
-        rsf.login("jminniecc@gmail.com", "hgPSznGL5STp8QK")
+        #rsf.login("jminniecc@gmail.com", "hgPSznGL5STp8QK")
         name_stock = self.search_stock.text()
         self.graph.clear()
         self.graph.setGeometry(QtCore.QRect(400, 10, 641, 291))
