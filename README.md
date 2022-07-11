@@ -1,4 +1,4 @@
-# SWE-326 Stock Bought Python Project
+# Stock Bought: Python Stock Trading Project
 
 The motivation for this project follows an entry-level consumer’s desire to begin their investment
 venture and broaden their financial horizons. Specifically, the project involves, and was incited by,
